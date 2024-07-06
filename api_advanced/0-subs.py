@@ -1,18 +1,34 @@
-#!/usr/bin/python3
-"""Writing a function that queries the Reddit API and returns
+"""This module provides a function to query the Reddit API and retrieve
 the number of subscribers for a given subreddit.
 
-Returns 0 if the subreddit is invalid or an error occurs."""
+**Functions:**
 
-import requests
+* `number_of_subscribers(subreddit)`: Retrieves the number of subscribers
+  for a given subreddit. Returns 0 if the subreddit is invalid or an error occurs.
+
+**Error Handling:**
+
+* The function handles potential request errors and missing keys in the response data,
+  providing informative messages to the user.
+"""
+
+import requests  # Imported alphabetically
 
 
 def number_of_subscribers(subreddit):
+    """Retrieves the number of subscribers for a given subreddit.
+
+    Args:
+        subreddit (str): The name of the subreddit to query.
+
+    Returns:
+        int: The number of subscribers for the subreddit, or 0 if invalid or an error occurs.
+    """
+
     headers = {'User-Agent': 'MyAPI/0.0.1'}  # Custom User-Agent
-    subreddit_url = f"https://reddit.com/r/{subreddit}.json"  # f-string formatting
 
     try:
-        response = requests.get(subreddit_url, headers=headers, allow_redirects=False)
+        response = requests.get(f"https://reddit.com/r/{subreddit}.json", headers=headers, allow_redirects=False)
         response.raise_for_status()  # Raise exception for non-200 status codes
 
         json_data = response.json()
@@ -35,7 +51,7 @@ subreddit_name = input("Enter a subreddit name: ")
 subscribers = number_of_subscribers(subreddit_name)
 
 if subscribers:
-    print(f"The subreddit '{subreddit_name}' has {subscribers} subscribers.")
+    print(f"Output: Existing Subreddit - The subreddit '{subreddit_name}' has {subscribers} subscribers.")
 else:
-    print(f"The subreddit '{subreddit_name}' may not exist or an error occurred.")
+    print(f"Output: Non-existing subreddit - The subreddit '{subreddit_name}' may not exist or an error occurred.")
 
